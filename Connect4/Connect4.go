@@ -44,7 +44,7 @@ func (t *Board) getEmptyRow(col int) (int, error) {
 }
 
 // function to add values to board
-func (t *Board) addVal(val, col int) error {
+func (t *Board) addValToCol(val, col int) error {
 
 	fmt.Println(val, " ", col)
 
@@ -73,6 +73,22 @@ func (t *Board) printBoard() {
 	fmt.Println()
 }
 
+// Get user input
+func getUserInput() int {
+	var a int
+	for {
+		_, err := fmt.Scanln(&a)
+		if err != nil {
+			fmt.Println("Invalid input. Please enter a valid integer:")
+			// Clear the input buffer
+			var discard string
+			fmt.Scanln(&discard)
+			continue
+		}
+		break
+	}
+	return a
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 func main() {
@@ -80,31 +96,27 @@ func main() {
 	a := newBoard()
 	a.printBoard()
 
-	var userInput, value, column int
-
 	// main loop to run program
 	running := true
 	for running {
 		fmt.Println("enter 1 to add value \nenter 0 to exit")
-		userInput, _ := fmt.Scanln(&userInput)
+		userInput := getUserInput()
+		fmt.Printf("%T : %d\n", userInput, userInput)
 		switch userInput {
 		case 0:
 			fmt.Println("Exiting")
 			running = false
 
 		case 1:
-			fmt.Println("type value and column")
-			value, _ = fmt.Scanln(&value, &column)
-			// fmt.Println("type column")
-			// column, _ = fmt.Scanln(&column)
+			fmt.Println("type value")
+			value := getUserInput()
+			fmt.Println("type column")
+			column := getUserInput()
 			fmt.Println("entered values : ", value, column)
 			fmt.Println("Adding Value to Column")
-			a.addVal(value, column)
+			a.addValToCol(value, column)
 
 		}
 		a.printBoard()
 	}
-
-	// fmt.Println(b)
-	// fmt.Println(err)
 }
